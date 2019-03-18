@@ -45,9 +45,16 @@ Each project then consists of the following files:
 
 Installing toolchain:
 ---------------------
+With nix (recommended):
+1. Install [nix](https://nixos.org/nix/)
+2. Drop into a
+    ```
+    nix-shell
+    ```
 
+Or to install the dependencies manually:
 1. First install the [IceStorm](http://www.clifford.at/icestorm/) toolchain:
-    On the latest _Ubuntu_ you may install from the repository: 
+    On the latest _Ubuntu_ you may install from the repository:
     ```
     sudo apt-get install -y fpga-icestorm yosys arachne-pnr
     ```
@@ -134,7 +141,7 @@ While there will be Makefile, you might want to look through the build process s
     icepack demo.txt demo.bin
     ```
 
-6. To upload bitstream onto the FPGA: 
+6. To upload bitstream onto the FPGA:
 
     ```
     iceprog demo.bin
