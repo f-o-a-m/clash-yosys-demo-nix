@@ -1,27 +1,24 @@
 # Project setup
-PROJ      = calculator
+PROJ      = megapickle
 BUILD     = ./build
 DEVICE    = 1k
 FOOTPRINT = tq144
 PINMAP    = icestick.pcf
 
-# TODO make more general
 CLASH = clash
 
 # Files
-FILES_HS = src/Top.hs
-FILES_V  = $(shell find verilog -type f -name "*.v")
+FILES = src/Top.hs
 
 .PHONY: all clean verilog bitstream burn
 
 all: bitstream
 
-verilog: $(FILES_HS) $(FILES_V)
+verilog:
 	# if build folder doesn't exist, create it
 	mkdir -p $(BUILD)
-	mkdir -p $(BUILD)/verilog
-	if [ -e verilog ]; then cp verilog/* -r $(BUILD)/verilog/; fi
-	$(CLASH) --verilog $(FILES_HS) -outputdir $(BUILD)
+	# TODO copy native verilog files over
+	$(CLASH) --verilog $(FILES) -outputdir $(BUILD)
 
 bitstream: verilog
 	# synthesize using Yosys
@@ -34,8 +31,8 @@ bitstream: verilog
 burn: bitstream
 	iceprog $(BUILD)/$(PROJ).bin
 
-show: verilog
-	yosys -p "show" $(BUILD)/verilog/Top/$(PROJ)/$(PROJ).v
+show:
+	yosys -p "show" $$(find $(BUILD)/verilog/ -type f -iname '*.v' | grep -v testbench.v)
 
 clean:
 	rm ./$(BUILD)/* -rf

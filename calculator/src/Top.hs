@@ -13,11 +13,18 @@
 {-# LANGUAGE DeriveGeneric              #-}
 module Top where
 
-import Button (button)
-
 import Clash.Prelude
 import Control.DeepSeq (NFData)
 import GHC.Generics (Generic)
+import GHC.Stack (HasCallStack)
+
+button
+  :: HasCallStack
+  => Clock domain source
+  -> Bit
+  -> Signal domain Bit
+button !_ !b = pure b
+{-# NOINLINE button #-}
 
 {-# ANN topEntity
   (Synthesize
