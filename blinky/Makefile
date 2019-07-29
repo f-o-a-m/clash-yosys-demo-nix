@@ -1,9 +1,8 @@
 # Project setup
 PROJ      = blinky
 BUILD     = ./build
-DEVICE    = 1k
-FOOTPRINT = tq144
-PINMAP    = icestick.pcf
+DEVICE    = 8k
+PINMAP    = icoboard.pcf
 
 CLASH = clash
 
@@ -24,7 +23,7 @@ bitstream: verilog
 	# synthesize using Yosys
 	yosys -p "synth_ice40 -blif $(BUILD)/$(PROJ).blif" $$(find $(BUILD)/verilog/ -type f -iname '*.v' | grep -v testbench.v)
 	# Place and route using arachne
-	arachne-pnr -d $(DEVICE) -P $(FOOTPRINT) -o $(BUILD)/$(PROJ).asc -p $(PINMAP) $(BUILD)/$(PROJ).blif
+	arachne-pnr -d $(DEVICE) -o $(BUILD)/$(PROJ).asc -p $(PINMAP) $(BUILD)/$(PROJ).blif
 	# Convert to bitstream using IcePack
 	icepack $(BUILD)/$(PROJ).asc $(BUILD)/$(PROJ).bin
 
